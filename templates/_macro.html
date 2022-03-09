@@ -1,0 +1,28 @@
+{% macro render_field(field) %}
+
+<div>
+	{{ field(class="form-control", **kwargs)}}
+
+	{% if field.errors %}
+	{% for field, errors in form.errors.items() %}
+	    <small class="form-text text-muted ">
+	        {{ ', '.join(errors) }}
+	    </small>
+	{% endfor %}
+    {% endif %}
+
+</div>
+
+{% endmacro %}
+
+{% macro render_select_button(field) %}
+
+<div>
+	{{ field(class="form-check-input", **kwargs)}}
+	{{ field.label(class="form-check-label", **kwargs)}}
+	{% for error in field.errors %}
+        <p>{{ error }}<p>
+    {% endfor %}
+</div>
+
+{% endmacro %}
