@@ -4,8 +4,8 @@ from flask_wtf import FlaskForm
 app = Flask(__name__)
 
 
-@app.route("/login")
-def index():
+@app.route("/login", methods=["POST", "GET"])
+def login():
     return render_template("login.html")
 
 

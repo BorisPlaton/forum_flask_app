@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %} Login {% endblock %}
+
+{% block content %}
+
+<div class="container p-5 d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="bg-light p-5 rounded" style="max-width: 400px;">
+
+        <!-- TITLE FORM -->
+        <h3 class="text-center mb-4">Вход</h3>
+
+        <form action="{{ url_for('login') }}" method="POST">
+
+            <!-- INPUT FORM -->
+            <div class="row g-3">
+
+                <!-- EMAIL -->
+                <div class="col-12"><input type="text" placeholder="Email" style="width: 100%;"></div>
+
+                <!-- PASSWORD -->
+                <div class="col-12"><input type="text" placeholder="Пароль" style="width: 100%;"></div>
+
+                <!-- SUBMIT BUTTON -->
+                <div class="col-12 d-flex justify-content-center"><input type="submit" value="Войти" style="width: 40%"></div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
