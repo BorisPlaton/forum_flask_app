@@ -9,7 +9,7 @@ class LoginForm(FlaskForm):
                        render_kw={"style": "width: 100%;",
                                   "autocomplete": "off"})
     password = PasswordField("Пароль",
-                             validators=[InputRequired()],
+                             validators=[InputRequired("Password is required")],
                              render_kw={"style": "width: 100%;",
                                         "autocomplete": "off"})
     remember = BooleanField("Запомнить меня", default=False)

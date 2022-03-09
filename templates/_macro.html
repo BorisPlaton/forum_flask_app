@@ -4,9 +4,9 @@
 	{{ field(class="form-control", **kwargs)}}
 
 	{% if field.errors %}
-	{% for field, errors in form.errors.items() %}
-	    <small class="form-text text-muted ">
-	        {{ ', '.join(errors) }}
+	{% for errors in field.errors %}
+	    <small class="form-text text-danger ">
+	        {{ errors }}
 	    </small>
 	{% endfor %}
     {% endif %}
