@@ -1,0 +1,48 @@
+{% from "_macro.html" import render_field, render_select_button %}
+
+{% extends "base.html" %}
+
+{% block title %} Registration {% endblock %}
+
+{% block content %}
+
+<div class="container p-5 d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="bg-light p-5 rounded" style="max-width: 350px;">
+
+        <!-- TITLE FORM -->
+        <h3 class="text-center mb-3">Регистрация</h3>
+
+        <form action="{{ url_for('register') }}" method="POST" novalidate>
+            {{ form.csrf_token }}
+
+            <!-- INPUT FORM -->
+            <div class="row g-2">
+
+                <!-- USERNAME -->
+                <div class="col-12">
+                    {{ render_field(form.username, placeholder=form.username.label.text) }}
+                </div>
+
+                <!-- EMAIL -->
+                <div class="col-12">
+                    {{ render_field(form.email, placeholder=form.email.label.text) }}
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="col-12">
+                    {{ render_field(form.password, placeholder=form.password.label.text) }}
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <div class="col-12 d-flex justify-content-center mt-5">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
