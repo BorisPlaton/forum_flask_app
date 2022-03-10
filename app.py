@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, flash
 from forms import LoginForm, RegistrationForm
 from flask_sqlalchemy import SQLAlchemy
 

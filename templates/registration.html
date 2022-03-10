@@ -33,10 +33,22 @@
                     {{ render_field(form.password, placeholder=form.password.label.text) }}
                 </div>
 
+                <!-- CONFIRM PASSWORD -->
+                <div class="col-12">
+                    {{ render_field(form.confirm_password, placeholder=form.confirm_password.label.text) }}
+                </div>
+
+                <!-- SUBMIT BUTTON -->
+                <div class="col-12">
+                    <small><a href="{{ url_for('login') }}" class="text-decoration-none">Уже есть аккаунт?</a></small>
+                </div>
+
                 <!-- SUBMIT BUTTON -->
                 <div class="col-12 d-flex justify-content-center mt-5">
                     {{ form.submit(class="btn btn-primary") }}
                 </div>
+
+
 
             </div>
 

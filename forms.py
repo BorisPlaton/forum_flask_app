@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import Form
 from wtforms.fields import EmailField, PasswordField, SubmitField, BooleanField, StringField
-from wtforms.validators import InputRequired, Email, Length
+from wtforms.validators import InputRequired, Email, Length, EqualTo
 
 
 class LoginForm(FlaskForm):
@@ -19,14 +19,17 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     email = EmailField("Почта",
-                       validators=[InputRequired("Необходимо ввести почту")],
+                       validators=[InputRequired("Введите почту")],
                        render_kw={"style": "width: 100%;",
                                   "autocomplete": "off"})
     password = PasswordField("Пароль",
-                             validators=[InputRequired("Необходимо ввести пароль"),
+                             validators=[InputRequired("Введите пароль"),
                                          Length(min=1, max=30)],
                              render_kw={"style": "width: 100%;",
                                         "autocomplete": "off"})
+    confirm_password = PasswordField("Повторите пароль",
+                                     validators=[InputRequired("Повторите пароль"),
+                                                 EqualTo("password", message="Пароли должны совпадать")])
     username = StringField("Ваше имя", validators=[InputRequired("Введите ваше имя"),
                                                    Length(min=1, max=30)],
                            render_kw={"style": "width: 100%;",
