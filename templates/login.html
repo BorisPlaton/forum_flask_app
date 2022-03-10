@@ -6,9 +6,11 @@
 
 {% block content %}
 
-<div class="container p-5 d-flex justify-content-center align-items-center" style="height: 100vh;">
+<div class="container p-5 d-flex flex-column  justify-content-center align-items-center" style="height: 100vh;">
+    {% for cat, msg in get_flashed_messages(True) %}
+        <div class="alert alert-{{ cat }}" style="width: 350px;">{{ msg }}</div>
+    {% endfor %}
     <div class="bg-light p-5 rounded" style="max-width: 350px;">
-
         <!-- TITLE FORM -->
         <h3 class="text-center mb-3">Вход</h3>
 
