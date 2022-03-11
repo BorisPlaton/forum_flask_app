@@ -1,20 +1,21 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import generate_password_hash, check_password_hash, Bcrypt
-from datetime import datetime
 from flask_wtf import FlaskForm
-from wtforms import Form
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from wtforms.fields import EmailField, PasswordField, SubmitField, BooleanField, StringField
 from wtforms.validators import InputRequired, Email, Length, EqualTo, ValidationError
+from datetime import datetime
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret!"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///forum.db"
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.Text, unique=True, nullable=False)
     password = db.Column(db.String(30), nullable=False)
@@ -75,25 +76,46 @@ class RegistrationForm(FlaskForm):
             raise ValidationError("Такая почта уже зарегистрирована")
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    login_form = LoginForm()
+    if current_user.is_authenticated:   # Если пользователь уже в профиле, не разрешит зайти в меню авторизации
+        return "<h1>U are already in the account</h1>"
+
+    login_form = LoginForm()    # Форма для входа в аккаунт
     if login_form.validate_on_submit():
-        pass
+        # Смотрим есть ли такой пользователь и совпадают ли пароли
+        user = User.query.filter_by(email=login_form.email.data).first()
+        if user and check_password_hash(user.password, login_form.password.data):
+            login_user(user, login_form.remember.data)  # В случае успеха пользователь входит в аккаунт
+        else:
+            flash("Неверная почта или пароль", category="danger")
+        return redirect(url_for('login'))   # Возвращает в меню авторизации если не удался вход
     return render_template("login.html", form=login_form)
 
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
-    registration_form = RegistrationForm()
+    if current_user.is_authenticated:   # Если пользователь уже в профиле, не разрешит зайти в меню регистрации
+        return "<h1>U are already in the account</h1>"
+    registration_form = RegistrationForm()  # Форма регистрации
     if registration_form.validate_on_submit():
-        hash_password = generate_password_hash(registration_form.password.data).decode("utf-8")
-        user = User(email=registration_form.email.data,
-                    password=hash_password,
-                    username=registration_form.username.data)
-        db.session.add(user)
-        db.session.commit()
-        flash("Аккаунт создан", category="success")
+        # Проверяем нет ли уже созданного аккаунта с такой почтой
+        if not User.query.filter_by(email=registration_form.email.data).first():
+            hash_password = generate_password_hash(registration_form.password.data).decode("utf-8")
+            user = User(email=registration_form.email.data,
+                        password=hash_password,
+                        username=registration_form.username.data)   # Создаем пользователя и хэшируем пароль
+            db.session.add(user)
+            db.session.commit()
+            flash("Аккаунт создан", category="success")
+        else:
+            flash("Такая почта уже зарегистрирована", category="danger")
+            return redirect(url_for("register"))
         return redirect(url_for('login'))
     return render_template("registration.html", form=registration_form)
 
