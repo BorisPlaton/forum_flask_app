@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import generate_password_hash, check_password_hash, Bcrypt
 from flask_wtf import FlaskForm
@@ -84,6 +84,11 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+@app.route("/")
+def home():
+    return render_template("home.html", loged=current_user.is_authenticated)
+
+
 @app.route("/login", methods=["POST", "GET"])
 def login():
     """Авторизация пользователя"""
@@ -96,6 +101,8 @@ def login():
         user = User.query.filter_by(email=login_form.email.data).first()
         if user and check_password_hash(user.password, login_form.password.data):
             login_user(user, login_form.remember.data)  # В случае успеха пользователь входит в аккаунт
+            next_page = request.args.get("next")    # Узнаем какая страница была до авторизации, чтоб вернуться на неё
+            return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
             flash("Неверная почта или пароль", category="danger")
         return redirect(url_for('login'))  # Возвращает в меню авторизации если не удался вход

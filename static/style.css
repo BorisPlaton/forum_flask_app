@@ -1,1 +1,11 @@
 a {cursor: pointer;}
+
+.header-link {
+	color: #ffffff;
+	font-weight: 600;
+	transition: 0.2s all ease-out;
+}
+
+.header-link:hover {
+	color: #dbdbdb;
+}

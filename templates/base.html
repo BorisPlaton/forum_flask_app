@@ -1,14 +1,59 @@
+{% from "_macro.html" import render_field, render_select_button, news %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>{% block title %} Title {% endblock %}</title>
 </head>
 <body>
+
+<div class="container-fluid bg-success">
+    <div class="container p-3 d-flex align-items-center justify-content-between">
+
+        <!-- TITLE -->
+        <div>
+           <a href="{{ url_for('home') }}" class="text-decoration-none fw-bold text-light fs-5">Православные новости</a>
+        </div>
+
+        <!-- NAVBAR -->
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link header-link" href="{{ url_for('home') }}"><i class="bi bi-newspaper me-1"></i><small>Новости</small></a>
+            </li>
+            {% if loged %}
+                <li class="nav-item">
+                    <a class="nav-link header-link" href="#"><i class="bi bi-pencil-square me-1"></i><small>Написать статью</small></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link header-link" href="#"><i class="bi bi-person-circle me-1"></i><small>Профиль</small></a>
+                </li>
+            {% endif %}
+        </ul> 
+
+        {% if loged %}
+        <!-- LOGOUT -->
+        <a class="header-link" href="{{ url_for('logout') }}">
+            <div>
+                <i class="bi bi-box-arrow-right fs-4"></i>
+            </div>
+        </a>
+        {% else %}
+        <!-- LOGIN -->
+        <a class="header-link" href="{{ url_for('login') }}">
+            <div>
+                <i class="bi bi-box-arrow-in-left fs-4"></i>
+            </div>
+        </a>
+        {% endif %}
+
+    </div>
+</div>
+
 {% block content %}
 
 
