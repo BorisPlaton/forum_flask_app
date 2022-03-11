@@ -2,7 +2,7 @@
 
 {% extends "base.html" %}
 
-{% block title %} Login {% endblock %}
+{% block title %} Логин {% endblock %}
 
 {% block content %}
 
@@ -37,7 +37,7 @@
                 <div class="col-12">
                     {{ render_select_button(form.remember) }}
                     <div class="mt-1">
-                        <small><a class="text-decoration-none" href="{{ url_for('register') }}">Регистрация</a></small>
+                        <small><a class="text-decoration-none" href="{{ url_for('register') }}">Нет аккаунта?</a></small>
                     </div>
                 </div>
 

@@ -13,6 +13,9 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///forum.db"
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+login_manager.login_message = 'Войдите в аккаунт'
+login_manager.login_message_category = 'danger'
 
 
 class User(db.Model, UserMixin):
@@ -83,10 +86,11 @@ def load_user(user_id):
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
-    if current_user.is_authenticated:   # Если пользователь уже в профиле, не разрешит зайти в меню авторизации
+    """Авторизация пользователя"""
+    if current_user.is_authenticated:  # Если пользователь уже в профиле, не разрешит зайти в меню авторизации
         return "<h1>U are already in the account</h1>"
 
-    login_form = LoginForm()    # Форма для входа в аккаунт
+    login_form = LoginForm()  # Форма для входа в аккаунт
     if login_form.validate_on_submit():
         # Смотрим есть ли такой пользователь и совпадают ли пароли
         user = User.query.filter_by(email=login_form.email.data).first()
@@ -94,13 +98,14 @@ def login():
             login_user(user, login_form.remember.data)  # В случае успеха пользователь входит в аккаунт
         else:
             flash("Неверная почта или пароль", category="danger")
-        return redirect(url_for('login'))   # Возвращает в меню авторизации если не удался вход
+        return redirect(url_for('login'))  # Возвращает в меню авторизации если не удался вход
     return render_template("login.html", form=login_form)
 
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
-    if current_user.is_authenticated:   # Если пользователь уже в профиле, не разрешит зайти в меню регистрации
+    """Регистрация пользователя"""
+    if current_user.is_authenticated:  # Если пользователь уже в профиле, не разрешит зайти в меню регистрации
         return "<h1>U are already in the account</h1>"
     registration_form = RegistrationForm()  # Форма регистрации
     if registration_form.validate_on_submit():
@@ -109,7 +114,7 @@ def register():
             hash_password = generate_password_hash(registration_form.password.data).decode("utf-8")
             user = User(email=registration_form.email.data,
                         password=hash_password,
-                        username=registration_form.username.data)   # Создаем пользователя и хэшируем пароль
+                        username=registration_form.username.data)  # Создаем пользователя и хэшируем пароль
             db.session.add(user)
             db.session.commit()
             flash("Аккаунт создан", category="success")
@@ -118,6 +123,14 @@ def register():
             return redirect(url_for("register"))
         return redirect(url_for('login'))
     return render_template("registration.html", form=registration_form)
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    """Выход из аккаунта"""
+    logout_user()
+    return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
