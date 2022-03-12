@@ -81,12 +81,12 @@ class RegistrationForm(FlaskForm):
 
 
 class WriteArticle(FlaskForm):
-    title = StringField("Название", validators=[InputRequired("Название должно быть обязательно"),
+    title = StringField("Название", validators=[InputRequired("Необходимо написать название"),
                                                 Length(min=1, max=80)],
                         render_kw={"style": "width: 100%;",
                                    "autocomplete": "off"})
     text = TextAreaField("Текст", validators=[InputRequired("Напишите что-то")],
-                         render_kw={"style": "width: 100%;",
+                         render_kw={"style": "width: 100%; height: 65vh; resize: none;",
                                     "autocomplete": "off"})
     submit = SubmitField("Сохранить")
 
@@ -114,11 +114,17 @@ def profile():
 
 @app.route("/wrote_post", methods=["POST", "GET"])
 @login_required
-def wrote_post():
+def write_post():
     """
     Написание статьи.
     """
     article_form = WriteArticle()
+    if article_form.validate_on_submit():
+        post = Post(title=article_form.title.data, content=article_form.text.data, user_id=current_user.id)
+        db.session.add(post)
+        db.session.commit()
+        flash("Сохранено!", category="success")
+        return redirect(url_for('write_post'))
     return render_template("wrote_post.html", loged=True, user=current_user, form=article_form)
 
 
