@@ -21,28 +21,21 @@
         </div>
 
         <!-- NAVBAR -->
+        {% if loged %}
         <ul class="nav justify-content-center">
             <li class="nav-item">
                 <a class="header-link" href="{{ url_for('home') }}"><i class="bi bi-file-text me-1"></i><small>Лента</small></a>
             </li>
-            {% if loged %}
                 <li class="nav-item">
                     <a class="header-link" href="{{ url_for('write_post') }}"><i class="bi bi-pencil-square me-1"></i><small>Написать пост</small></a>
                 </li>
                 <li class="nav-item">
                     <a class="header-link" href="{{ url_for('profile') }}"><i class="bi bi-person-circle me-1"></i><small>Профиль</small></a>
                 </li>
-            {% endif %}
-        </ul> 
+        </ul>
+        {% endif %}
 
-        {% if loged %}
-        <!-- LOGOUT -->
-        <a class="header-link" href="{{ url_for('logout') }}">
-            <div>
-                <i class="bi bi-box-arrow-right fs-4"></i>
-            </div>
-        </a>
-        {% else %}
+        {% if not loged %}
         <!-- LOGIN -->
         <a class="header-link" href="{{ url_for('login') }}">
             <div>
@@ -50,6 +43,7 @@
             </div>
         </a>
         {% endif %}
+
 
     </div>
 </div>
