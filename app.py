@@ -98,7 +98,7 @@ def load_user(user_id):
 
 @app.route("/")
 def home():
-    return render_template("home.html", loged=current_user.is_authenticated)
+    return render_template("home.html", loged=current_user.is_authenticated, user=current_user)
 
 
 @app.route("/profile")

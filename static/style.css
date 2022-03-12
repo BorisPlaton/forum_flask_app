@@ -15,3 +15,13 @@ a {cursor: pointer;}
 .header-link:actiove {
     color: #ffffff;
 }
+
+.side-bar {
+    color: #404040;
+    transition: 0.2s all ease-out;
+    text-decoration: none;
+}
+
+.side-bar:hover {
+    color: #5e5e5e;
+}
