@@ -23,11 +23,11 @@
         <!-- NAVBAR -->
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a class="header-link" href="{{ url_for('home') }}"><i class="bi bi-newspaper me-1"></i><small>Новости</small></a>
+                <a class="header-link" href="{{ url_for('home') }}"><i class="bi bi-file-text me-1"></i><small>Лента</small></a>
             </li>
             {% if loged %}
                 <li class="nav-item">
-                    <a class="header-link" href="#"><i class="bi bi-pencil-square me-1"></i><small>Написать статью</small></a>
+                    <a class="header-link" href="{{ url_for('wrote_post') }}"><i class="bi bi-pencil-square me-1"></i><small>Написать пост</small></a>
                 </li>
                 <li class="nav-item">
                     <a class="header-link" href="{{ url_for('profile') }}"><i class="bi bi-person-circle me-1"></i><small>Профиль</small></a>
