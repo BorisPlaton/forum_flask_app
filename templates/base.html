@@ -13,24 +13,24 @@
 <body>
 
 <div class="container-fluid bg-success">
-    <div class="container p-3 d-flex align-items-center justify-content-between">
+    <div class="container p-4 d-flex align-items-center justify-content-between">
 
         <!-- TITLE -->
         <div>
-           <a href="{{ url_for('home') }}" class="text-decoration-none fw-bold text-light fs-5">Православные новости</a>
+           <a href="{{ url_for('home') }}" class="text-decoration-none fw-bold text-light fs-4">Православные новости</a>
         </div>
 
         <!-- NAVBAR -->
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a class="nav-link header-link" href="{{ url_for('home') }}"><i class="bi bi-newspaper me-1"></i><small>Новости</small></a>
+                <a class="header-link" href="{{ url_for('home') }}"><i class="bi bi-newspaper me-1"></i><small>Новости</small></a>
             </li>
             {% if loged %}
                 <li class="nav-item">
-                    <a class="nav-link header-link" href="#"><i class="bi bi-pencil-square me-1"></i><small>Написать статью</small></a>
+                    <a class="header-link" href="#"><i class="bi bi-pencil-square me-1"></i><small>Написать статью</small></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link header-link" href="#"><i class="bi bi-person-circle me-1"></i><small>Профиль</small></a>
+                    <a class="header-link" href="{{ url_for('profile') }}"><i class="bi bi-person-circle me-1"></i><small>Профиль</small></a>
                 </li>
             {% endif %}
         </ul> 

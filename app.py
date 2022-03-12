@@ -89,11 +89,17 @@ def home():
     return render_template("home.html", loged=current_user.is_authenticated)
 
 
+@app.route("/profile")
+@login_required
+def profile():
+    return render_template("profile.html", loged=True)
+
+
 @app.route("/login", methods=["POST", "GET"])
 def login():
     """Авторизация пользователя"""
     if current_user.is_authenticated:  # Если пользователь уже в профиле, не разрешит зайти в меню авторизации
-        return "<h1>U are already in the account</h1>"
+        return redirect(url_for('home'))
 
     login_form = LoginForm()  # Форма для входа в аккаунт
     if login_form.validate_on_submit():
@@ -113,7 +119,7 @@ def login():
 def register():
     """Регистрация пользователя"""
     if current_user.is_authenticated:  # Если пользователь уже в профиле, не разрешит зайти в меню регистрации
-        return "<h1>U are already in the account</h1>"
+        return redirect(url_for('home'))
     registration_form = RegistrationForm()  # Форма регистрации
     if registration_form.validate_on_submit():
         # Проверяем нет ли уже созданного аккаунта с такой почтой

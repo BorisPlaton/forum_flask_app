@@ -4,8 +4,14 @@ a {cursor: pointer;}
 	color: #ffffff;
 	font-weight: 600;
 	transition: 0.2s all ease-out;
+	text-decoration: none;
+	margin: 0 10px;
 }
 
 .header-link:hover {
 	color: #dbdbdb;
+}
+
+.header-link:actiove {
+    color: #ffffff;
 }

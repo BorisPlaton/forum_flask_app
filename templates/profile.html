@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %} Личный кабинет {% endblock %}
+
+{% block content %}
+<div class="container p-5">
+    <div class="row">
+
+        <!-- PROFILE INFORMATION-->
+        <div class="col-12 border-bottom pb-4 pt-4">
+            <div class="row g-3">
+
+                <div class="col-md-6 fs-4 fw-light p-0">
+                    <span class="text-secondary">Имя профиля: </span>
+                    <span>Кирилл</span>
+                </div>
+
+                <div class="col-md-6 fs-4 fw-light p-0">
+                    <span class="text-secondary">Почта: </span>
+                    <span>v@g.c</span>
+                </div>
+
+                <div class="col-md-6 fs-4 fw-light p-0">
+                    <span class="text-secondary">Дата регистрации: </span>
+                    <span>12/10/2003</span>
+                </div>
+
+                <div class="col-md-6 fs-4 fw-light p-0">
+                <a href="#"><button type="button" class="btn btn-outline-success">Изменить профиль</button></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACTIVITY INFO-->
+        <div class="col-12 pt-4">
+            <div class="row">
+
+                <div class="col-md-6 p-0 text-md-center text-start">
+                    <h3 class="text-secondary fw-light">Мои статьи</h3>
+                </div>
+
+                <div class="col-md-6 p-0 text-md-center text-start">
+                    <h3 class="text-secondary fw-light">Мои комментарии</h3>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
