@@ -23,6 +23,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.Text, unique=True, nullable=False)
     password = db.Column(db.String(30), nullable=False)
     username = db.Column(db.String(30), nullable=False)
+    registration_date = db.Column(db.Date, nullable=False, default=datetime.utcnow())
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def __repr__(self):
@@ -92,7 +93,7 @@ def home():
 @app.route("/profile")
 @login_required
 def profile():
-    return render_template("profile.html", loged=True)
+    return render_template("profile.html", loged=True, user=current_user)
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -130,7 +131,6 @@ def register():
                         username=registration_form.username.data)  # Создаем пользователя и хэшируем пароль
             db.session.add(user)
             db.session.commit()
-            flash("Аккаунт создан", category="success")
         else:
             flash("Такая почта уже зарегистрирована", category="danger")
             return redirect(url_for("register"))
