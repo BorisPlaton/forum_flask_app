@@ -25,3 +25,13 @@ a {cursor: pointer;}
 .side-bar:hover {
     color: #5e5e5e;
 }
+
+.news {
+    text-decoration: none;
+    color: #404040;
+    transition: 0.2s all ease-out;
+}
+
+.news:hover{
+    background-color: #ededed;
+}

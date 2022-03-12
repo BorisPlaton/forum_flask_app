@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.Text, unique=True, nullable=False)
     password = db.Column(db.String(30), nullable=False)
     username = db.Column(db.String(30), nullable=False)
-    registration_date = db.Column(db.Date, nullable=False, default=datetime.utcnow())
+    registration_date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     posts = db.relationship('Post', backref='author', lazy=True)
 
     def __repr__(self):
@@ -34,7 +34,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    date_post = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    date_post = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):
@@ -98,7 +98,10 @@ def load_user(user_id):
 
 @app.route("/")
 def home():
-    return render_template("home.html", loged=current_user.is_authenticated, user=current_user)
+    return render_template("home.html",
+                           loged=current_user.is_authenticated,
+                           user=current_user,
+                           posts=Post.query.order_by(Post.date_post.desc()).all())
 
 
 @app.route("/profile")

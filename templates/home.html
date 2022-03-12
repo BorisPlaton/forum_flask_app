@@ -11,19 +11,15 @@
 
         <!--NEWS LIST-->
         <div class="col-md-8 col-12 mt-4">
-            {{ news() }}
-            {{ news() }}
-            {{ news() }}
-            {{ news() }}
-            {{ news() }}
-            {{ news() }}
-            {{ news() }}
+            {% for post in posts %}
+                {{ news(post) }}
+            {% endfor %}
         </div>
 
         <!--ACCOUNT INFO-->
             <nav class="col-md-4 d-md-block d-none">
                 <div class="navbar sticky-top p-0 pt-4">
-                    <div class="p-4 bg-light rounded shadow-sm" style="width: 100%;">
+                    <div class="p-4 rounded shadow-sm" style="width: 100%;">
                         <div class="row">
 
                             <div class="col-12">
@@ -50,7 +46,9 @@
 
         {% else %}
         <div class="col-12">
-            {{ news() }}
+            {% for post in posts %}
+                {{ news(post) }}
+            {% endfor %}
         </div>
         {% endif %}
 

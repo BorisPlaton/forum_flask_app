@@ -37,10 +37,31 @@
 
                 <div class="col-md-6 p-0 text-md-center text-start">
                     <h3 class="text-secondary fw-light">Мои посты</h3>
+                    <div class="row g-3">
+
+                        <!--POST TITLE-->
+                        {% for post in user.posts %}
+                        <div class="col-12 d-flex align-items-center justify-content-between bg-light py-2 px-4">
+                                <div>
+                                    <h4 class="fw-light m-0">{{ post.title }}</h4>
+                                </div>
+                                <div>
+                                    <span class="fw-light text-secondary">{{ post.date_post.strftime('%Y-%m-%d') }}, {{ post.date_post.strftime('%H:%M:%S') }}</span>
+                                </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
                 </div>
 
                 <div class="col-md-6 p-0 text-md-center text-start">
                     <h3 class="text-secondary fw-light">Мои комментарии</h3>
+                    <div class="row">
+
+                        <div class="col-12"></div>
+                        <div class="col-12"></div>
+                        <div class="col-12"></div>
+                    </div>
                 </div>
 
             </div>
