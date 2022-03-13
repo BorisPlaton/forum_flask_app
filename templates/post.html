@@ -22,6 +22,7 @@
             </p>
         </div>
 
+        <!-- WRITE THE COMMENT -->
         <div class="col-12 border-top p-4">
             <form action="{{ url_for('post', num=cur_post.id) }}" method="post" novalidate>
                 {{ form.csrf_token }}
@@ -45,6 +46,7 @@
             </form>
         </div>
 
+        <!-- COMMENTS -->
         <div class="col-12 p-4">
 
             {% for comment in comments %}

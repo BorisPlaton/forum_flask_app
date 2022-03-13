@@ -66,14 +66,47 @@
                     </div>
                 </div>
 
+                <!-- USER COMMENTS -->
                 <div class="col-md-6 p-0 text-md-center text-start">
                     <h3 class="text-secondary fw-light">Мои комментарии</h3>
-                    <div class="row">
 
-                        <div class="col-12"></div>
-                        <div class="col-12"></div>
-                        <div class="col-12"></div>
+                    <div class="row g-3">
+
+                        <!-- COMMENTS TITLE-->
+                        {% for comment in user.comments %}
+                            <div class="d-flex align-items-center news rounded">
+
+                                <!-- INFO -->
+                                <a href="{{ url_for('post', num=comment.post.id) }}" class="text-decoration-none flex-fill">
+                                    <div class="col-12 d-flex flex-column py-2 px-4 news">
+
+                                        <div class="d-flex justify-content-between flex-fill">
+                                            <div>
+                                                <h4 class="fw-light m-0">{{ comment.post.title }}</h4>
+                                            </div>
+                                            <div>
+                                                <span class="fw-light text-secondary">{{ comment.date_comment.strftime('%Y-%m-%d') }}, {{ comment.date_comment.strftime('%H:%M:%S') }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex mt-2">
+                                            {% if comment.text|length > 100 %}
+                                                <p class="fw-light fs-6 text-secondary text-start">{{ comment.text[:100] }}<span> (...)</span></p>
+                                            {% else %}
+                                                <p class="fw-light fs-6 text-secondary">{{ comment.text }}</p>
+                                            {% endif %}
+                                            
+                                        </div>
+
+                                    </div>
+                                </a>
+
+                            </div>
+                        {% endfor %}
+
                     </div>
+                    </div>
+
                 </div>
 
             </div>

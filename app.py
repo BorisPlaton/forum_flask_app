@@ -37,7 +37,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     date_post = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    comments = db.relationship('Comment', backref='post', lazy=True)
+    comments = db.relationship('Comment', backref='post', passive_deletes=True)
 
     def __repr__(self):
         return f"title {self.title} id {self.id} date {self.date_post}"
@@ -48,7 +48,7 @@ class Comment(db.Model):
     text = db.Column(db.String(350), nullable=False)
     date_comment = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey("post.id"), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey("post.id", ondelete='CASCADE'), nullable=False)
 
     def __repr__(self):
         return f"comment {self.id} text {self.text}"
@@ -158,6 +158,7 @@ def write_post():
 @login_required
 def delete(num):
     Post.query.filter_by(id=num).delete()
+    Comment.query.filter_by(post_id=num).delete()
     db.session.commit()
     return redirect(url_for('profile'))
 
