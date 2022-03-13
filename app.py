@@ -131,6 +131,12 @@ def write_post():
     return render_template("wrote_post.html", loged=True, user=current_user, form=article_form)
 
 
+@app.route("/post/<num>", methods=["GET", "POST"])
+def post(num):
+    return render_template("post.html", loged=current_user.is_authenticated,
+                           cur_post=Post.query.filter_by(id=num).first())
+
+
 @app.route("/login", methods=["POST", "GET"])
 def login():
     """

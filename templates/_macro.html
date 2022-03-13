@@ -27,7 +27,7 @@
 {% endmacro %}
 
 {% macro news(post_info) %}
-<a href="#" class="text-decoration-none">
+<a href="{{ url_for('post', num=post_info.id) }}" class="text-decoration-none">
 	<div class='d-flex flex-column p-3 rounded mb-4 shadow-sm news'>
 
 		<div class='d-flex flex-column mb-3'>
