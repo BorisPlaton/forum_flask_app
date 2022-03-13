@@ -22,6 +22,24 @@
             </p>
         </div>
 
+        <div class="col-12 border-top mt-3">
+            <form action="{{ url_for('post', num=cur_post.id) }}" method="post" novalidate>
+                {{ form.csrf_token }}
+
+                {{ form.comment_text(placeholder=form.comment_text.label.text, class='form-control mt-4',
+                autocomplete="off", style='resize: none;')}}
+
+                <div class="d-flex align-items-center">
+                {{ form.submit(class='btn btn-outline-success mt-2 me-2') }}
+                {% for errors in form.submit.errors %}
+                    <small class="form-text text-danger ">
+                        {{ errors }}
+                    </small>
+                {% endfor %}
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
 

@@ -73,7 +73,7 @@ class RegistrationForm(FlaskForm):
                                       "autocomplete": "off"})
     submit = SubmitField("Зарегистрироваться")
 
-    def validation_email(self, email):
+    def validate_email(self, email):
         """Проверяет уникальность почты"""
         email_presence = User.query.filter_by(email=email.data).first()
         if email_presence:  # Запрос должен быть пустым, в ином случае почта уже зарегистрирована
@@ -88,7 +88,17 @@ class WriteArticle(FlaskForm):
     text = TextAreaField("Текст", validators=[InputRequired("Напишите что-то")],
                          render_kw={"style": "width: 100%; height: 65vh; resize: none;",
                                     "autocomplete": "off"})
-    submit = SubmitField("Сохранить")
+    submit = SubmitField("Отправить")
+
+
+class CommentForm(FlaskForm):
+    comment_text = TextAreaField("Комментарий", validators=[InputRequired("Напишите что-то"),
+                                                            Length(max=500)])
+    submit = SubmitField("Отправить")
+
+    def validate_submit(self, comment_text):
+        if not current_user.is_authenticated:
+            raise ValidationError("Сперва нужно авторизоваться")
 
 
 @login_manager.user_loader
@@ -126,15 +136,19 @@ def write_post():
         post = Post(title=article_form.title.data, content=article_form.text.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
-        flash("Сохранено!", category="success")
-        return redirect(url_for('write_post'))
+        flash("Отправлено!", category="success")
+        return redirect(url_for('home'))
     return render_template("wrote_post.html", loged=True, user=current_user, form=article_form)
 
 
 @app.route("/post/<num>", methods=["GET", "POST"])
 def post(num):
+    comment_form = CommentForm()
+    if comment_form.validate_on_submit():
+        return f"text {comment_form.comment_text.data}"
     return render_template("post.html", loged=current_user.is_authenticated,
-                           cur_post=Post.query.filter_by(id=num).first())
+                           cur_post=Post.query.filter_by(id=num).first(),
+                           form=comment_form)
 
 
 @app.route("/login", methods=["POST", "GET"])

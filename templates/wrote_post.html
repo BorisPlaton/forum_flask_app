@@ -8,16 +8,6 @@
     <div class="row p-5 g-4">
         {{ form.csrf_token }}
 
-        {% for cat, msg in get_flashed_messages(True) %}
-        <div class="col-md-2 m-0" style="height: auto;"></div>
-        <div class="col-md-10 m-0">
-            <!-- FLASH MESSAGE-->
-                <div class="alert alert-{{ cat }} m-0" style="width: 100%;">{{ msg }}</div>
-        </div>
-        {% endfor %}
-
-
-
         <!-- TITLE FIELD -->
         <div class="col-md-2 d-flex justify-content-md-end justify-content-start">
             {{ form.title.label(class="text-secondary lead") }}
