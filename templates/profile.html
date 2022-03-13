@@ -41,14 +41,26 @@
 
                         <!--POST TITLE-->
                         {% for post in user.posts %}
-                        <div class="col-12 d-flex align-items-center justify-content-between bg-light py-2 px-4">
-                                <div>
-                                    <h4 class="fw-light m-0">{{ post.title }}</h4>
-                                </div>
-                                <div>
-                                    <span class="fw-light text-secondary">{{ post.date_post.strftime('%Y-%m-%d') }}, {{ post.date_post.strftime('%H:%M:%S') }}</span>
-                                </div>
-                        </div>
+                            <div class="d-flex align-items-center news rounded">
+
+                                <!-- DELETE BUTTON -->
+                                <a href="{{ url_for('delete', num=post.id) }}" class="side-bar">
+                                    <span><i class="bi bi-trash3" style="vertical-align: -0.15em;"></i></span>
+                                </a>
+
+                                <!-- INFO -->
+                                <a href="{{ url_for('post', num=post.id) }}" class="text-decoration-none flex-fill">
+                                    <div class="col-12 d-flex align-items-center justify-content-between py-2 px-4 news">
+                                            <div>
+                                                <h4 class="fw-light m-0">{{ post.title }}</h4>
+                                            </div>
+                                            <div>
+                                                <span class="fw-light text-secondary">{{ post.date_post.strftime('%Y-%m-%d') }}, {{ post.date_post.strftime('%H:%M:%S') }}</span>
+                                            </div>
+                                    </div>
+                                </a>
+
+                            </div>
                         {% endfor %}
 
                     </div>

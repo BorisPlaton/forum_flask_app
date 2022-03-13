@@ -9,10 +9,10 @@
         {{ form.csrf_token }}
 
         <!-- TITLE FIELD -->
-        <div class="col-md-2 d-flex justify-content-md-end justify-content-start">
+        <div class="col-md-1 d-flex justify-content-md-end justify-content-start">
             {{ form.title.label(class="text-secondary lead") }}
         </div>
-        <div class="col-md-10">
+        <div class="col-md-11">
             {{ form.title(class="form-control") }}
             {% if form.title.errors %}
             {% for errors in form.title.errors %}
@@ -24,10 +24,10 @@
         </div>
 
         <!-- TEXT FIELD -->
-        <div class="col-md-2 d-flex justify-content-md-end justify-content-start">
+        <div class="col-md-1 d-flex justify-content-md-end justify-content-start">
             {{ form.text.label(class="text-secondary lead") }}
         </div>
-        <div class="col-md-10">
+        <div class="col-md-11">
             {{ form.text(class="form-control") }}
             {% if form.text.errors %}
             {% for errors in form.text.errors %}
@@ -39,8 +39,8 @@
         </div>
 
         <!--SUBMIT-->
-        <div class="col-md-2"></div>
-        <div class="col-md-10">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
             {{ form.submit(class="btn btn-outline-success") }}
         </div>
 

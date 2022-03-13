@@ -125,7 +125,7 @@ def profile():
     return render_template("profile.html", loged=True, user=current_user)
 
 
-@app.route("/wrote_post", methods=["POST", "GET"])
+@app.route("/write_post", methods=["POST", "GET"])
 @login_required
 def write_post():
     """
@@ -139,6 +139,14 @@ def write_post():
         flash("Отправлено!", category="success")
         return redirect(url_for('home'))
     return render_template("wrote_post.html", loged=True, user=current_user, form=article_form)
+
+
+@app.route("/delete/<num>")
+@login_required
+def delete(num):
+    Post.query.filter_by(id=num).delete()
+    db.session.commit()
+    return redirect(url_for('profile'))
 
 
 @app.route("/post/<num>", methods=["GET", "POST"])
