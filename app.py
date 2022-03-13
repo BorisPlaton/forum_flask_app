@@ -25,6 +25,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(30), nullable=False)
     registration_date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     posts = db.relationship('Post', backref='author', lazy=True)
+    comments = db.relationship('Comment', backref='commenter', lazy=True)
 
     def __repr__(self):
         return f"user {self.username}"
@@ -36,9 +37,21 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     date_post = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    comments = db.relationship('Comment', backref='post', lazy=True)
 
     def __repr__(self):
         return f"title {self.title} id {self.id} date {self.date_post}"
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(350), nullable=False)
+    date_comment = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey("post.id"), nullable=False)
+
+    def __repr__(self):
+        return f"comment {self.id} text {self.text}"
 
 
 class LoginForm(FlaskForm):
@@ -136,7 +149,7 @@ def write_post():
         post = Post(title=article_form.title.data, content=article_form.text.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
-        flash("Отправлено!", category="success")
+        flash("Пост сохранен!", category="success")
         return redirect(url_for('home'))
     return render_template("wrote_post.html", loged=True, user=current_user, form=article_form)
 
@@ -153,10 +166,15 @@ def delete(num):
 def post(num):
     comment_form = CommentForm()
     if comment_form.validate_on_submit():
-        return f"text {comment_form.comment_text.data}"
+        comment = Comment(text=comment_form.comment_text.data,
+                          user_id=current_user.id,
+                          post_id=num)
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('post', num=num))
     return render_template("post.html", loged=current_user.is_authenticated,
                            cur_post=Post.query.filter_by(id=num).first(),
-                           form=comment_form)
+                           form=comment_form, comments=Comment.query.filter_by(post_id=num))
 
 
 @app.route("/login", methods=["POST", "GET"])

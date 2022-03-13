@@ -10,7 +10,7 @@
         {% if loged %}
 
         {% for cat, msg in get_flashed_messages(True) %}
-        <div class="col-md-8 m-0">
+        <div class="col-md-12 m-0">
             <!-- FLASH MESSAGE-->
                 <div class="alert alert-{{ cat }} m-0" style="width: 100%;">{{ msg }}</div>
         </div>

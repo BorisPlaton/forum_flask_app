@@ -22,7 +22,7 @@
             </p>
         </div>
 
-        <div class="col-12 border-top mt-3">
+        <div class="col-12 border-top p-4">
             <form action="{{ url_for('post', num=cur_post.id) }}" method="post" novalidate>
                 {{ form.csrf_token }}
 
@@ -30,14 +30,37 @@
                 autocomplete="off", style='resize: none;')}}
 
                 <div class="d-flex align-items-center">
-                {{ form.submit(class='btn btn-outline-success mt-2 me-2') }}
+                {{ form.submit(class='btn btn-outline-success mt-2 ms-auto') }}
                 {% for errors in form.submit.errors %}
+                    <small class="form-text text-danger ">
+                        {{ errors }}
+                    </small>
+                {% endfor %}
+                {% for errors in form.comment_text.errors %}
                     <small class="form-text text-danger ">
                         {{ errors }}
                     </small>
                 {% endfor %}
                 </div>
             </form>
+        </div>
+
+        <div class="col-12 p-4">
+
+            {% for comment in comments %}
+            <div class="d-flex flex-column fw-light shadow-sm p-4 mb-3">
+                <div class="mb-2">
+                    <span class="fs-5">{{ comment.commenter.username }}</span>,
+                    <span class="text-secondary">{{ comment.date_comment.strftime('%Y-%m-%d') }},</span>
+                    <span class="text-secondary">{{ comment.date_comment.strftime('%H:%M:%S') }}</span>
+                </div>
+                <div style="word-wrap: break-word;">
+                    {{ comment.text }}
+                </div>
+            </div>
+            {% endfor %}
+
+
         </div>
 
     </div>
